@@ -133,7 +133,9 @@ const setupSplitView = () => {
       syntaxHighlighting(defaultHighlightStyle),
       CodeMirror.updateListener.of((update) => {
         forwardUpdate(update);
-        updateSplitPreview();
+        if (update.docChanged) {
+          updateSplitPreview();
+        }
       }),
       ...(props.extension.options.extensions || []),
     ],
@@ -183,7 +185,7 @@ const createCodeMirror = () => {
       syntaxHighlighting(defaultHighlightStyle),
       CodeMirror.updateListener.of((update) => {
         forwardUpdate(update);
-        if (isSplitMode.value) {
+        if (isSplitMode.value && update.docChanged) {
           updateSplitPreview();
         }
       }),
